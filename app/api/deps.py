@@ -12,8 +12,16 @@ oauth2_scheme = OAuth2(
                 "profile": "Informations de profil",
                 "email": "Adresse e-mail",
                 "read:flow": "Accès aux flux",
-
-
+                "read:law": "Accès aux API des dossiers législatifs (lecture seule)",
+                "read:parliament": "Accès aux API des données des assemblées (lecture seule)",
+                "read:survey": "Accès aux API des enquêtes (lecture seule)",
+                "write:survey": "Permet de répondre aux enquêtes",
+                "read:argument": "Accès aux API des débats (lecture seule)",
+                "write:argument": "Permet de participer aux débats",
+                "read:self": "Accès en lecture à son propre profil",
+                "write:self": "Accès en écriture à son propre profil",
+                "read:admin": "Accès en lecture aux API administration",
+                "write:admin": "Accès en écriture aux API administration"
             }
         }
     }
