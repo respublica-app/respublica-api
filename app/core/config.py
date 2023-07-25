@@ -1,39 +1,39 @@
-import secrets
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 
-from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, PostgresDsn, validator
+from pydantic import AnyHttpUrl, PostgresDsn, EmailStr, field_validator
+from pydantic_settings import BaseSettings
+
 
 class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
 
-    SERVER_NAME: str
-    SERVER_HOST: AnyHttpUrl
+    # Server
+    SERVER_NAME: str = "respublica-api"
+    SERVER_HOST: AnyHttpUrl = "http://localhost:8000"
 
-    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
+    # Environment
+    ENVIRONMENT: str = "development"
+    @field_validator("ENVIRONMENT")
+    def validate_environment(cls, v: str) -> str:
+        if v not in ["development", "production"]:
+            raise ValueError("ENVIRONMENT must be 'development' or 'production'")
+        return v
 
-    PROJECT_NAME: str
 
-    POSTGRES_SERVER: str
-    POSTGRES_USER: str
-    POSTGRES_PASSWORD: str
-    POSTGRES_DB: str
-    SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
+    # CORS
+    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = ["http://localhost:8000", "http://127.0.0.1:8000"]
 
-    @validator("SQLALCHEMY_DATABASE_URI", pre=True)
-    def assemble_db_connection(cls, v: Optional[str], values: Dict[str, Any]) -> Any:
-        if isinstance(v, str):
-            return v
-        return PostgresDsn.build(
-            scheme="postgresql",
-            user=values.get("POSTGRES_USER"),
-            password=values.get("POSTGRES_PASSWORD"),
-            host=values.get("POSTGRES_SERVER"),
-            path=f"/{values.get('POSTGRES_DB') or ''}",
-        )
+    # Database
+    # Optional for now, but will be required in the future
+    POSTGRES_DSN: Optional[PostgresDsn] = None
 
     # OAuth2
+    OAUTH2_WELL_KNOWN_URL: AnyHttpUrl
     OAUTH2_M2M_CLIENT_ID: str
     OAUTH2_M2M_CLIENT_SECRET: str
-    OAUTH2_WELL_KNOWN_URL: AnyHttpUrl
+
+    # Contact
+    CONTACT_EMAIL: Optional[EmailStr] = None
+    CONTACT_NAME: Optional[str] = None
 
 settings = Settings()
