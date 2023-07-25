@@ -14,6 +14,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     -
+      name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    -
       name: Login to Scaleway Container Registry
       uses: docker/login-action@v2
       with:
@@ -22,10 +25,12 @@ jobs:
         password: ${{ secrets.SCW_API_KEY }}
     -
       name: Build and push
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v4
       with:
         context: .
         platforms: linux/amd64
         push: true
+        cache-to: type=gha,mode=max
+        cache-from: type=gha
         tags: |
           ${{ secrets.SCW_REGISTRY }}/backend:latest
