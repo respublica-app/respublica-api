@@ -31,6 +31,7 @@ class Settings(BaseSettings):
     OAUTH2_WELL_KNOWN_URL: AnyHttpUrl
     OAUTH2_M2M_CLIENT_ID: str
     OAUTH2_M2M_CLIENT_SECRET: str
+    OAUTH2_AUDIENCE: str = "https://api.respublica.aeris-one.fr"
 
     # Contact
     CONTACT_EMAIL: Optional[EmailStr] = None
