@@ -2,7 +2,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2
 from jose import JWTError, ExpiredSignatureError, jwt
 
-# We're using OAuth2 for authentication with authorization code flow
+# We're using OAuth2 for authentication with implicit flow
 oauth2_scheme = OAuth2(
     flows={
         "implicit": {
@@ -11,7 +11,7 @@ oauth2_scheme = OAuth2(
                 "openid": "OpenID Connect",
                 "profile": "Informations de profil",
                 "email": "Adresse e-mail",
-                "read:flow": "Accès aux flux",
+                "read:flow": "Accès aux flux (lecture seule)",
                 "read:law": "Accès aux API des dossiers législatifs (lecture seule)",
                 "read:parliament": "Accès aux API des données des assemblées (lecture seule)",
                 "read:survey": "Accès aux API des enquêtes (lecture seule)",
@@ -27,17 +27,9 @@ oauth2_scheme = OAuth2(
     }
 )
 
-jwk_set = {"keys":[{"kty":"EC","use":"sig","kid":"6s-Vul-i4ScuHx-AJP-ha_rdhjU2ocWGgYX2NZNtclQ","alg":"ES384","crv":"P-384","x":"3p6qU3gbMyxoB6Bmk4936eh3tDLkCSnJT8SnaH-ZHaoSHLrTaTXYZd-3K8MKr7jZ","y":"YLZcBLVkvXp-GUjfjViftp_hEVK3BQElpTQhkGfeCdICeyk0EORtfVuVJJeoeL5i"}]}
 
 def get_user(token: str = Depends(oauth2_scheme)) -> dict:
-    try:
-        payload = jwt.decode(token, jwk_set, algorithms=["HS256"])
-    except JWTError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
-    except ExpiredSignatureError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token expired")
-
-    return payload
+    return token
 
 
 def has_permission(user: dict, permission: str) -> bool:
