@@ -42,7 +42,13 @@ def get_user(
         )
     try:
         algorithms = oauth2_scheme.oidc_config["id_token_signing_alg_values_supported"]
-        payload = jwt.decode(token, oauth2_scheme.jwks, algorithms=algorithms, audience=str(settings.OAUTH2_AUDIENCE))
+        payload = jwt.decode(
+            token,
+            oauth2_scheme.jwks,
+            algorithms=algorithms,
+            audience=str(settings.OAUTH2_AUDIENCE),
+            issuer=oauth2_scheme.oidc_config["issuer"]
+        )
         token_scopes = payload.get("scope", "").split(" ")
         print(token_scopes)
         token_data = TokenData(scopes=token_scopes, user_id=payload.get("sub"))
