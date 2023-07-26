@@ -29,9 +29,12 @@ class Settings(BaseSettings):
 
     # OAuth2
     OAUTH2_WELL_KNOWN_URL: AnyHttpUrl
-    OAUTH2_M2M_CLIENT_ID: str
-    OAUTH2_M2M_CLIENT_SECRET: str
     OAUTH2_AUDIENCE: str = "https://api.respublica.aeris-one.fr"
+
+    # Logto Management API
+    LOGTO_MANAGEMENT_M2M_CLIENT_ID: str
+    LOGTO_MANAGEMENT_M2M_SECRET: str
+    LOGTO_MANAGEMENT_URL: AnyHttpUrl
 
     # Contact
     CONTACT_EMAIL: Optional[EmailStr] = None

@@ -8,13 +8,16 @@ from jose import JWTError, ExpiredSignatureError, jwt
 
 from app.core.config import settings
 from app.core.oauth2 import OAuth2
+from app.core.logto import LogtoManagement, User
 
 # We're using OAuth2 for authentication with implicit flow
 oauth2_scheme = OAuth2()
 
+management_access = LogtoManagement()
+
 
 class TokenData(BaseModel):
-    user_id: str | None = None
+    user_id: str
     scopes: list[str] = []
 
 
