@@ -53,7 +53,6 @@ def get_user(
             issuer=oauth2_scheme.oidc_config["issuer"]
         )
         token_scopes = payload.get("scope", "").split(" ")
-        print(token_scopes)
         token_data = TokenData(scopes=token_scopes, user_id=payload.get("sub"))
 
     except (JWTError, ValidationError):
