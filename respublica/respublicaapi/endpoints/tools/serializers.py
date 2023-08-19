@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from respublicaapi.models import Tools
+from .models import Tools
 
 class ToolsSerializer(serializers.ModelSerializer):
    class Meta:

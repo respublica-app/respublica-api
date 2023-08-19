@@ -8,3 +8,4 @@ class Tools(models.Model):
     official = models.BooleanField()
     author = models.CharField(max_length=100)
     description = models.CharField(max_length=255)
+

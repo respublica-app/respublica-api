@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from respublicaapi.serializers import ToolsSerializer
-from respublicaapi.models import Tools
+from .serializers import ToolsSerializer
+from .models import Tools
 
 
 class ToolsViewSet(viewsets.ModelViewSet):
